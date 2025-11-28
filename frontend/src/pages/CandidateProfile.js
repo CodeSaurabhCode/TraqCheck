@@ -15,7 +15,7 @@ const CandidateProfile = () => {
   const [panFile, setPanFile] = useState(null);
   const [aadhaarFile, setAadhaarFile] = useState(null);
 
-  const fetchCandidate = async () => {
+  const fetchCandidate = React.useCallback(async () => {
     try {
       setLoading(true);
       const data = await candidateService.getCandidate(id);
@@ -27,11 +27,11 @@ const CandidateProfile = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id]);
 
   useEffect(() => {
     fetchCandidate();
-  }, [id]);
+  }, [fetchCandidate]);
 
   const handleRequestDocuments = async () => {
     try {
