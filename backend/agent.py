@@ -68,24 +68,27 @@ class DocumentRequestAgent:
     def generate_email_request(self, state: AgentState) -> AgentState:
         
         prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are an AI HR assistant. Generate a professional, personalized email requesting PAN and Aadhaar documents from a candidate.
+            ("system", """You are an AI HR assistant at TraqCheck. Generate a professional, personalized email requesting PAN and Aadhaar documents from a candidate.
 
 The email should:
 1. Be warm and professional
 2. Address the candidate by name
-3. Mention their company and designation if available
+3. Mention their previous company and designation if available (this is information from their resume)
 4. Clearly request both PAN and Aadhaar documents
 5. Explain why these documents are needed (identity verification for employment records)
-6. Provide clear instructions on how to submit (mention they can upload through our portal)
+6. Provide clear instructions on how to submit (mention they will receive a secure upload link)
 7. Be concise but friendly
+8. Sign off as "HR Team, TraqCheck" or "TraqCheck Recruitment Team"
+
+IMPORTANT: The email is FROM TraqCheck HR TO the candidate. Do not sign it as the candidate's company.
 
 Format the email with a proper subject line and body.
 """),
-            ("user", """Generate an email for:
+            ("user", """Generate an email for candidate:
 Name: {name}
 Email: {email}
-Company: {company}
-Designation: {designation}
+Previous Company: {company}
+Previous Designation: {designation}
 
 Return the response in this format:
 SUBJECT: [subject line]
