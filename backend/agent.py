@@ -68,27 +68,33 @@ class DocumentRequestAgent:
     def generate_email_request(self, state: AgentState) -> AgentState:
         
         prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are an AI HR assistant at TraqCheck. Generate a professional, personalized email requesting PAN and Aadhaar documents from a candidate.
+            ("system", """You are an AI assistant at TraqCheck, a background verification company. Generate a professional, personalized email requesting PAN and Aadhaar documents from a candidate.
+
+IMPORTANT CONTEXT: 
+- TraqCheck is a background verification company, NOT the candidate's employer
+- We are conducting verification on behalf of the candidate's current/prospective company
+- The candidate is joining or has joined their company (mentioned in their resume)
 
 The email should:
 1. Be warm and professional
 2. Address the candidate by name
-3. Mention their previous company and designation if available (this is information from their resume)
-4. Clearly request both PAN and Aadhaar documents
-5. Explain why these documents are needed (identity verification for employment records)
-6. Provide clear instructions on how to submit (mention they will receive a secure upload link)
-7. Be concise but friendly
-8. Sign off as "HR Team, TraqCheck" or "TraqCheck Recruitment Team"
+3. Mention that we're conducting background verification for their company/organization
+4. Reference their company and designation from their resume
+5. Clearly request both PAN and Aadhaar documents
+6. Explain why these documents are needed (identity verification and background check for their employment)
+7. Provide clear instructions on how to submit (mention they will receive a secure upload link)
+8. Be concise but friendly
+9. Sign off as "TraqCheck Verification Team" or "Background Verification Team, TraqCheck"
 
-IMPORTANT: The email is FROM TraqCheck HR TO the candidate. Do not sign it as the candidate's company.
+DO NOT welcome them to TraqCheck or suggest they are joining TraqCheck. They are joining their own company, and we're just doing the verification.
 
 Format the email with a proper subject line and body.
 """),
             ("user", """Generate an email for candidate:
 Name: {name}
 Email: {email}
-Previous Company: {company}
-Previous Designation: {designation}
+Company: {company}
+Designation: {designation}
 
 Return the response in this format:
 SUBJECT: [subject line]
